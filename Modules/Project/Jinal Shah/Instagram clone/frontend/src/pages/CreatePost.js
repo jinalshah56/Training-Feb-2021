@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
-import UserService from '../../services/UserServices'
-import Navbar from '../Navbar'
+import React, { useState, useContext } from 'react'
+import UserService from '../services/UserServices'
+import Navbar from '../components/Navbar'
 import { useHistory } from 'react-router-dom';
+import { UserContext } from '../context/Context'
 
 export default function CreatePost() {
 
+   //const { userID } = useContext(UserContext)
    const [title, setTitle] = useState("")
    const [body, setBody] = useState("")
    const [image, setImage] = useState("")
@@ -36,8 +38,8 @@ export default function CreatePost() {
          <div className="container">
             <div className="row">
                <div className="col-10 d-flex justify-content-center mx-auto col-md-8 mt-5">
-                  <div className="flex-row ">
-                     <div className="card shadow border-rounded border-primary mb-3" >
+                  <div className="flex-row">
+                     <div className="card shadow border-rounded border-primary mb-3" style={{ minWidth: '320px' }} >
                         <div className="card-title pt-3">
                            <h2 className="blink text-center" >Add New Post !!</h2>
                         </div>

@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
             err.code = 'filetype';
             return cb(err);
         } else {
-            cb(null, file.originalname);
+            cb(null, Date.now() + "_" + file.originalname);
         }
     }
 })

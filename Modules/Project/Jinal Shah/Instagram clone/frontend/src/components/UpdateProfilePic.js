@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
-import UserService from '../../services/UserServices'
+import React, { useState, useContext } from 'react'
+import UserService from '../services/UserServices'
+import { UserContext } from '../context/Context'
 
 export default function UpdateProfilePic(props) {
 
    const [image, setImage] = useState("")
-
+   const { userID } = useContext(UserContext)
 
    const handleSubmit = (e) => {
 
@@ -13,7 +14,7 @@ export default function UpdateProfilePic(props) {
 
       const obj1 = new FormData();
       obj1.append("profilePic", image)
-      obj1.append("postedBy", localStorage.getItem('user'))
+      obj1.append("postedBy", userID)
 
       const t1 = localStorage.getItem('token')
       UserService.updateProfilePic(t1, obj1)

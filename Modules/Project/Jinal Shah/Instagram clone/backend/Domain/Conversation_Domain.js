@@ -1,4 +1,5 @@
 const Conversation = require('../models/ConversationModel');
+const Message = require('../models/MessageModel');
 
 class conveLogic {
 
@@ -67,7 +68,10 @@ class conveLogic {
       const ID1 = req.params.id
       const selData = await Conversation.find({ _id: ID1 })
       if (selData.length == 0) res.status(404).send("user not found..")
+
+      //const messages = await Message.find({ conversationId: ID1 })
       const remove = await Conversation.remove({ _id: ID1 })
+      const remove1 = await Message.remove({ conversationId: ID1 })
       res.send(selData)
 
    }

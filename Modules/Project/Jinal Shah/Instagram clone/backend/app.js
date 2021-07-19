@@ -22,14 +22,14 @@ app.get('/instagram', (req, res) => {
 app.use('/instagram', index)
 
 
-app.listen(process.env.port, () => {
+/* app.listen(process.env.port, () => {
   console.log(`server is running on port ${process.env.port}`)
-})
+}) */
 
-/* app.listen(80, () => {
+app.listen(80, () => {
   console.log(`server is running on port 80`)
 })
- */
+
 
 
 

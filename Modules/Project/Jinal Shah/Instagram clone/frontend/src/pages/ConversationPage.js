@@ -1,14 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react'
-import Navbar from '../Navbar'
-import UserService from '../../services/UserServices'
+import React, { useEffect, useState, useContext } from 'react'
+import Navbar from '../components/Navbar'
+import UserService from '../services/UserServices'
 import { format } from "timeago.js";
-import './Conversation.scss'
+import '../stylesheets/Conversation.scss'
 import ScrollableFeed from 'react-scrollable-feed'
-import { imgURL } from '../../services/UserServices'
+import { imgURL } from '../services/UserServices'
+import { UserContext } from '../context/Context'
 
 export default function Messanger(props) {
 
+   //const { userID } = useContext(UserContext)
    const t1 = localStorage.getItem('token')
+   //const id = userID
    const id = localStorage.getItem('user')
    const [Name, setName] = useState([])
    const [user, setUser] = useState([]);
@@ -25,12 +28,16 @@ export default function Messanger(props) {
 
    useEffect(() => {
 
-      // get conversation 
-      UserService.getConById(t1, id)
-         .then(res => {
-            console.log(res.data)
-            setUser(res.data)
-         })
+      setInterval(() => {
+
+         // get conversation 
+         UserService.getConById(t1, id)
+            .then(res => {
+               console.log(res.data)
+               setUser(res.data)
+            })
+
+      }, 100)
 
       // logged in user details
       UserService.getUserById(t1, id)
@@ -89,7 +96,6 @@ export default function Messanger(props) {
 
    // insert new private conversation
    const addNew = (id2) => {
-      console.log('hbk');
       console.log(id2);
       const obj = {
          senderId: id,
@@ -126,7 +132,6 @@ export default function Messanger(props) {
 
    // delete chat
    const deleteChat = (dID) => {
-      console.log(dID);
       UserService.deleteChat(t1, dID)
          .then(res => {
             console.log(res.data);
@@ -139,9 +144,9 @@ export default function Messanger(props) {
          <Navbar />
 
          <div className="container d-flex justify-content-center mb-5 " >
-            <div className="d-flex flex-row  justify-content-between align-items-center col-10">
+            <div className="d-flex flex-row justify-content-center  justify-content-between align-items-center col-10" style={{ minWidth: '400px' }}>
 
-               <div className="col-4 border shadow border-primary  " style={{ height: '550px' }}>
+               <div className="col-4 border shadow border-primary  " style={{ height: '550px', minWidth: '200px' }}>
 
                   {/* -------- logged in user name , add new chat option -------- */}
 
@@ -161,7 +166,7 @@ export default function Messanger(props) {
                         setToggle1(false)
                      }
                      }>
-                        <i class="fas fa-edit" style={{ fontSize: '20px' }}></i>
+                        <i className="fas fa-edit" style={{ fontSize: '20px' }}></i>
 
                      </div>
                      <div className="d-flex flex-row align-items-center p-2" data-toggle="tooltip" data-placement="bottom" title="Group Chat" onClick={() => {
@@ -187,7 +192,7 @@ export default function Messanger(props) {
 
                                              {i1._id !== id ?
 
-                                                <div className="d-flex flex-row align-items-center m-2" >
+                                                <div className="d-flex flex-row justify-content-center align-items-center m-2" >
                                                    <div className="mr-0" >
                                                       <img className="rounded-circle border border-dark " src={`${imgURL}/${i1.profilePic}`} height="45px" width="45px" />
                                                    </div>
@@ -196,8 +201,8 @@ export default function Messanger(props) {
                                                          {i1.userID}
                                                       </div>
                                                    </span>
-                                                   <a className="pl-5" onClick={() => deleteChat(item._id)}>
-                                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                   <a onClick={() => deleteChat(item._id)}>
+                                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
                                                          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
                                                          <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
                                                       </svg>
@@ -227,7 +232,7 @@ export default function Messanger(props) {
                                                 Group Chat
                                              </div>
                                              <a className="pl-5" onClick={() => deleteChat(item._id)}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-trash" viewBox="0 0 16 16">
                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
                                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
                                                 </svg>
@@ -254,7 +259,7 @@ export default function Messanger(props) {
                   </div>
                </div>
 
-               <div className="col-8 shadow border border-primary  justify-content-center align-items-center border-left-0" style={{ height: '550px' }}>
+               <div className="col-8 shadow border border-primary  justify-content-center align-items-center border-left-0" style={{ height: '550px', minWidth: '300px' }}>
 
 
                   {
@@ -298,8 +303,8 @@ export default function Messanger(props) {
                               show ?
                                  <>
                                     <div className="row bg-light rounded-pill justify-content-center mb-0" style={{ height: '47px', border: '2px solid #1877f2' }}>
-                                       <textarea className="pl-4 mx-2 mt-2 border border-none" placeholder="Add New Message..." value={newMessage}
-                                          style={{ height: '33px', width: '490px' }}
+                                       <textarea className="col-9 pl-4 mx-2 mt-2 border border-none" placeholder="Add New Message..." value={newMessage}
+                                          style={{ height: '33px', minWidth: '100px' }}
                                           onChange={(e) => setNewMessage(e.target.value)} >
 
                                        </textarea>
@@ -401,7 +406,7 @@ export default function Messanger(props) {
                                                                Create Group
                                                             </div>
                                                             <a onClick={createGroup}>
-                                                               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="green" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                                                               <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="green" className="bi bi-check-circle-fill" viewBox="0 0 16 16">
                                                                   <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
                                                                </svg>
                                                             </a>
@@ -494,7 +499,7 @@ export default function Messanger(props) {
 
             </div>
 
-         </div>
+         </div >
 
       </div >
 

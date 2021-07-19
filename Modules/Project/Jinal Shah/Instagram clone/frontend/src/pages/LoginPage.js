@@ -1,8 +1,8 @@
-import './login.css';
-import React from 'react'
+import '../stylesheets/login.css';
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import UserService from '../services/UserServices';
-import { useState } from 'react';
+import { UserContext } from '../context/Context'
 
 function Login(props) {
 
@@ -11,11 +11,18 @@ function Login(props) {
 		pwd: ''
 	})
 
+	const { userID, setUserID } = useContext(UserContext)
+
+	const [toggle, setToggle] = useState(false)
+
 	const handleChange = e => {
 		setLogindata({
 			...logindata,
 			[e.target.name]: e.target.value
 		})
+
+		if (logindata.name === '' || logindata.pwd === "") { }
+		else { setToggle(true) }
 	}
 
 	const handleSubmit = e => {
@@ -28,9 +35,9 @@ function Login(props) {
 
 		UserService.login(logindata1)
 			.then(res => {
-				console.log(res)
 				localStorage.setItem('token', res.data.Token)
 				localStorage.setItem('user', res.data.user)
+				//setUserID(res.data.user)
 				props.history.push('/home')
 			})
 			.catch(err => {
@@ -60,35 +67,27 @@ function Login(props) {
 
 									<form className="pb-2 pt-3" onSubmit={handleSubmit}>
 										<div className="form-group pb-2">
-											<input type="text" placeholder="Phone number, username, or email" className="form-control" name="name" value={logindata.name} onChange={handleChange} required />
+											<input type="text" placeholder="User Id" className="form-control" name="name" value={logindata.name} onChange={handleChange} required />
 										</div>
 										<div className="form-group pb-2">
-											<input type="password" placeholder="password" name="pwd" className="form-control" value={logindata.pwd} onChange={handleChange} required />
+											<input type="password" placeholder="Password" name="pwd" className="form-control" value={logindata.pwd} onChange={handleChange} required />
 										</div>
-										<button type="submit" className="btn btn-primary btn-block">
+										<button type="submit" className="btn btn-primary btn-block" disabled={!toggle}>
 											Log In
 										</button>
 									</form>
-									<p className="or">OR</p>
-									<div className="fb1">
 
-										<a href="https://www.facebook.com/login.php?" target="_blank">
-											<img src="images/fb.png" className="fb-logo m-2"></img>Log In With Facebook
-										</a>
-									</div>
-									<div class="forgot">
-										<a href="#">Forgot password?</a>
-									</div>
-									<div class="signup">
+
+									<div className="signup">
 										<p>Don't have an account?
 											<Link to="/signup" className="pl-1 font-weight-bold" style={{ textDecoration: 'none' }}>
 												Sign up
 											</Link>
 										</p>
 									</div>
-									<div class="apps">
+									<div className="apps">
 										<p>Get the app.</p>
-										<p class="icons row">
+										<p className="icons row">
 											<a href="https://apps.apple.com/in/app/instagram/id389801252" target="_blank">
 												<img src="images/appstore.png" alt="appstore" className="app1" />
 											</a>

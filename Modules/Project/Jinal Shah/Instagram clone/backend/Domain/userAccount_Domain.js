@@ -79,7 +79,7 @@ class accLogic {
         user.findByIdAndUpdate(req.body.postedBy,
             {
                 $set:
-                    { profilePic: req.file.originalname }
+                    { profilePic: req.file.filename }
             },
             { new: true },
             (err, result) => {

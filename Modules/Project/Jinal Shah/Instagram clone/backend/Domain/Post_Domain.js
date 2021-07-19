@@ -48,7 +48,7 @@ class postLogic {
         const post = new Post({
             title,
             body,
-            photo: req.file.originalname,
+            photo: req.file.filename,
             postedBy
         })
         console.log('post = ' + post)

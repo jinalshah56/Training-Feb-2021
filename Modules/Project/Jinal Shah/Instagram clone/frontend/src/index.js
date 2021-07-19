@@ -2,17 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import createPost from './components/screens/CreatePost';
-import CreateStory from './components/screens/CreateStory';
-import Home from './components/screens/Home';
-import Profile from './components/screens/Profile';
-import Login from './pages/login';
-import signup from './pages/signup'
-import EditPost from './components/screens/EditPost'
-import UpdateProfilePic from './components/screens/UpdateProfilePic';
-import UserProfile from './components/screens/UserProfile';
-import Conversation from './components/Chats/Conversation';
-
+import createPost from './pages/CreatePost';
+import CreateStory from './pages/CreateStory';
+import Home from './pages/HomePage';
+import Profile from './pages/ProfilePage';
+import Login from './pages/LoginPage';
+import signup from './pages/SignupPage'
+import EditPost from './components/EditPost'
+import UpdateProfilePic from './components/UpdateProfilePic';
+import UserProfile from './pages/UserProfilePage';
+import Conversation from './pages/ConversationPage';
+import { UserProvider } from './context/Context'
 
 function App() {
 	return (
@@ -40,9 +40,9 @@ function App() {
 
 
 ReactDOM.render(
-	<React.StrictMode>
+	<UserProvider>
 		<App />
-	</React.StrictMode>,
+	</UserProvider>,
 	document.getElementById('root')
 );
 

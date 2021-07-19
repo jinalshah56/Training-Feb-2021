@@ -17,14 +17,10 @@ class storyLogic {
 
    async insert(req, res) {
 
-      console.log(req.body)
-      console.log(req.file)
-      console.log(req.file.path)
-
       const { postedBy } = req.body
 
       const story = new Story({
-         photo: req.file.originalname,
+         photo: req.file.filename,
          postedBy
       })
       story.save()
@@ -38,13 +34,11 @@ class storyLogic {
 
    async delete(req, res) {
       const ID1 = req.params.id
-      /* const selData = await Story.find({ _id: ID1 })
+      const selData = await Story.find({ _id: ID1 })
       console.log(selData)
       if (selData.length == 0) res.status(404).send("user not found..")
-      const remove = await Story.remove({ _id: ID1 }) */
+      const remove = await Story.remove({ _id: ID1 })
    }
-
-
 
 }
 

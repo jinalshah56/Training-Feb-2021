@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import Navbar from '../Navbar'
-import UserService from '../../services/UserServices'
-import { imgURL } from '../../services/UserServices'
+import React, { useState, useEffect, useContext } from 'react'
+import Navbar from '../components/Navbar'
+import UserService from '../services/UserServices'
+import { imgURL } from '../services/UserServices'
+import { UserContext } from '../context/Context'
 
 export default function UserProfile(props) {
 
    const id = props.match.params.id
    const t1 = localStorage.getItem('token')
+   //const { userID } = useContext(UserContext)
+   //const t2 = userID
    const t2 = localStorage.getItem('user')
 
    const [data, setData] = useState([])
@@ -48,7 +51,7 @@ export default function UserProfile(props) {
 
       const obj1 = {
          id,
-         user: localStorage.getItem('user')
+         user: t2
       }
       UserService.follow(t1, obj1)
          .then(res => {
@@ -61,7 +64,7 @@ export default function UserProfile(props) {
    const unfollowUser = () => {
       const obj1 = {
          id,
-         user: localStorage.getItem('user')
+         user: t2
       }
       UserService.unfollow(t1, obj1)
          .then(res => {
@@ -132,7 +135,7 @@ export default function UserProfile(props) {
 
 
             <div className="container d-flex justify-content-center mb-5" >
-               <div class=" justify-content-between align-items-center my-0 mx-auto">
+               <div className=" justify-content-between align-items-center my-0 mx-auto">
                   <div className="row">
                      {data.length > 0 ?
                         data.map(item => {

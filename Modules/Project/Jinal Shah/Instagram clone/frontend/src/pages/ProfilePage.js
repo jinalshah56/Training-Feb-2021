@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from '../Navbar'
-import UserService from '../../services/UserServices'
-import { imgURL } from '../../services/UserServices'
+import React, { useEffect, useState, useContext } from 'react'
+import Navbar from '../components/Navbar'
+import UserService from '../services/UserServices'
+import { imgURL } from '../services/UserServices'
+import { UserContext } from '../context/Context'
 
 export default function Profile(props) {
 
-   const [mypics, setPics] = useState([])
-   const [image, setImage] = useState("")
-
    const t1 = localStorage.getItem('token')
+   //const { userID } = useContext(UserContext)
+   //const postedBy = userID
    const postedBy = localStorage.getItem('user')
 
+   const [mypics, setPics] = useState([])
    const [following, setFolllowing] = useState([])
    const [followers, setFolllowers] = useState([])
    const [info, setInfo] = useState([])
@@ -71,16 +72,16 @@ export default function Profile(props) {
                            <h6>{followers.length}</h6>
                            <h6 data-toggle="modal" data-target=".bd-example-modal1-sm"> followers</h6>
 
-                           <div class="modal fade bd-example-modal1-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                              <div class="modal-dialog modal-sm modal-dialog-centered">
-                                 <div class="modal-content">
+                           <div className="modal fade bd-example-modal1-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                              <div className="modal-dialog modal-sm modal-dialog-centered">
+                                 <div className="modal-content">
                                     <div className="modal-header" style={{ backgroundColor: 'skyblue' }}>
                                        <h5 className="modal-title " id="exampleModalLongTitle">Followers</h5>
-                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                       <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                           <span aria-hidden="true">&times;</span>
                                        </button>
                                     </div>
-                                    <div class="modal-body">
+                                    <div className="modal-body">
                                        {followers.length > 0 ?
 
                                           <div>
@@ -90,8 +91,8 @@ export default function Profile(props) {
                                                       <div className="rounded-circle">
                                                          <img className="rounded-circle border border-dark mr-3" src={`${imgURL}/${item.profilePic}`} height="40px" width="40px" />
                                                       </div>
-                                                      <div className="font-weight-bold mt-2" data-dismiss="modal" onClick={() => handleLink(item._id)}>
 
+                                                      <div className="font-weight-bold mt-2" data-dismiss="modal" onClick={() => handleLink(item._id)}>
 
                                                          {item.userID}
 
@@ -117,16 +118,16 @@ export default function Profile(props) {
                               following
                            </h6>
 
-                           <div class="modal fade bd-example-modal2-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-                              <div class="modal-dialog modal-sm modal-dialog-centered">
-                                 <div class="modal-content">
+                           <div className="modal fade bd-example-modal2-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                              <div className="modal-dialog modal-sm modal-dialog-centered">
+                                 <div className="modal-content">
                                     <div className="modal-header" style={{ backgroundColor: 'skyblue' }}>
                                        <h5 className="modal-title " id="exampleModalLongTitle">Followings</h5>
-                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                       <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                           <span aria-hidden="true">&times;</span>
                                        </button>
                                     </div>
-                                    <div class="modal-body">
+                                    <div className="modal-body">
 
                                        {following ?
 
@@ -172,29 +173,9 @@ export default function Profile(props) {
                </div>
             </div>
 
-            {/* <div className="container d-flex justify-content-center mb-5" >
-               <div class="card-deck justify-content-between align-items-center my-0 mx-auto">
-                  <div className="row">
-                     {mypics.length > 0 ?
-                        mypics.map(item => {
-                           return (
-                              <div className="card border border-none" style={{ minWidth: '18rem' }}>
-                                 <img className="card-img-top " src={item.photo} alt={item.title} />
-                              </div>
-                           )
-                        })
-
-                        :
-                        <div className="col-12 justify-content-center" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-                           <h1>No posts yet</h1>
-                        </div>
-                     }
-                  </div>
-               </div>
-            </div> */}
 
             <div className="container d-flex justify-content-center mb-5" >
-               <div class=" justify-content-between align-items-center my-0 mx-auto">
+               <div className=" justify-content-between align-items-center my-0 mx-auto">
                   <div className="row">
                      {mypics.length > 0 ?
                         mypics.map(item => {

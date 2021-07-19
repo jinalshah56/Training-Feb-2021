@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-const USER_API_BASE_URL = "http://20.198.103.48:1015/instagram";
-export const imgURL = "http://20.198.103.48:1015/uploads";
+//const USER_API_BASE_URL = "http://20.198.103.48:1015/instagram";
+//export const imgURL = "http://20.198.103.48:1015/uploads";
 
-//const USER_API_BASE_URL = "http://localhost:80/instagram";
-//export const imgURL = "http://localhost:80/uploads";
+const USER_API_BASE_URL = "http://localhost:80/instagram";
+export const imgURL = "http://localhost:80/uploads";
 
 const token = localStorage.getItem('token')
 

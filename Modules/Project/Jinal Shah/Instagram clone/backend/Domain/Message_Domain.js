@@ -35,8 +35,6 @@ class messageLogic {
             res.send(result))
    }
 
-
-
 }
 
 module.exports = messageLogic
